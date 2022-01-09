@@ -42,6 +42,8 @@ const posts = Object.entries(import.meta.globEager('/posts/**/*.md'))
       // remove timezone from date
       date: post.metadata.date ? new Date(post.metadata.date).toLocaleDateString() : undefined,
 
+      preview: post.metadata.preview,
+
       // the svelte component
       component: post.default
     }
@@ -51,15 +53,11 @@ const posts = Object.entries(import.meta.globEager('/posts/**/*.md'))
     const parsedHtml = parse(post.component.render().html)
 
     // get the first paragaph of the post to use for the preview
-    const preview = parsedHtml.querySelector('p')
+    const preview = post.preview
 
     return {
       ...post,
-      preview: {
-        html: preview.toString(),
-        // text-only preview (i.e no html elements), used for SEO
-        text: preview.structuredText
-      },
+      preview: preview,
 
       // get estimated reading time for the post
       readingTime: readingTime(parsedHtml.structuredText).text
