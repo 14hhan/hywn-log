@@ -2,6 +2,21 @@ module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{html,js,svelte,ts,md,svx}'],
   theme: {
+    fontFamily: {
+      sans: [
+        'Pretendard Variable',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'system-ui',
+        'Roboto',
+        'Helvetica Neue',
+        'Segoe UI',
+        'Apple SD Gothic Neo',
+        'Noto Sans KR',
+        'Malgun Gothic',
+        'sans-serif'
+      ]
+    },
     extend: {
       typography: ({ theme }) => {
         return {

@@ -12,7 +12,8 @@ const config = {
     mdsvex(mdsvexConfig),
     [
       preprocess({
-        postcss: true
+        postcss: true,
+        css: { includePaths: ['src', 'node_modules'] },
       })
     ]
   ],
