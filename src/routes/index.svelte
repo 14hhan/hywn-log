@@ -35,7 +35,7 @@
     <ButtonLink href="/posts" size="small" raised={false} class="opacity-60">View All</ButtonLink>
   </h2>
   <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
-    {#each recentPosts as post}
+    {#each recentPosts.slice(0, 2) as post}
       <div class="flex p-4 border border-slate-300 dark:border-slate-700 rounded-lg flex-col">
         <PostPreview {post} small />
       </div>
