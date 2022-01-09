@@ -6,15 +6,15 @@
   export let small = false
 </script>
 
-<div class="flex flex-col">
+<div class="flex flex-col flex-1">
   <div>
     {#if !small}
       <h1 class="!mt-0 !mb-2">
-        <a href={`/posts/${post.slug}`}>{post.title}</a>
+        <a class="!font-semibold" href={`/posts/${post.slug}`}>{post.title}</a>
       </h1>
     {:else}
-      <h3 class="!mt-0 !mb-2">
-        <a href={`/posts/${post.slug}`}>{post.title}</a>
+      <h3 class="!mt-0 !mb-2 !text-2xl">
+        <a class="!font-semibold" href={`/posts/${post.slug}`}>{post.title}</a>
       </h3>
     {/if}
     <div class="opacity-70">
@@ -23,7 +23,7 @@
       <span>{post.readingTime}</span>
     </div>
   </div>
-  <div class="flex-1">{@html post.preview.html}</div>
+  <div class="flex-1 mt-1 mb-4">{@html post.preview}</div>
   <slot name="actions">
     <div class="flex justify-end w-full">
       <ButtonLink href={`/posts/${post.slug}`}>Read More</ButtonLink>

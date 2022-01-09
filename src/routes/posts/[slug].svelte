@@ -80,8 +80,8 @@
 </svelte:head>
 
 <article class="relative">
-  <h1 class="!mt-0 !mb-2">
-    <a class="!font-medium" href={$page.url.pathname}>
+  <h1 class="!mt-0 !mb-2 text-3xl">
+    <a class="!font-semibold" href={$page.url.pathname}>
       {title}
     </a>
   </h1>
@@ -122,7 +122,7 @@
     {#if previous}
       <div class="flex flex-col">
         <h6 class="not-prose post-preview-label">Previous Post</h6>
-        <div class="flex-1 post-preview">
+        <div class="flex-1 post-preview flex-col">
           <PostPreview post={previous} small />
         </div>
       </div>
@@ -132,7 +132,7 @@
     {#if next}
       <div class="flex flex-col">
         <h6 class="not-prose post-preview-label flex justify-end">Next Post</h6>
-        <div class="flex-1 post-preview">
+        <div class="flex-1 post-preview flex-col">
           <PostPreview post={next} small />
         </div>
       </div>

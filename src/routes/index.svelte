@@ -36,7 +36,7 @@
   </h2>
   <div class="grid gap-4 grid-cols-1 sm:grid-cols-2">
     {#each recentPosts as post}
-      <div class="flex p-4 border border-slate-300 dark:border-slate-700 rounded-lg">
+      <div class="flex p-4 border border-slate-300 dark:border-slate-700 rounded-lg flex-col">
         <PostPreview {post} small />
       </div>
     {/each}
