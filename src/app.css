@@ -37,5 +37,26 @@ svg {
   @apply outline-none focus:outline-none;
 }
 
+/* about page */
+.about img {
+  @apply !inline-block !mt-0 !mb-1;
+}
+
+.about h2 {
+  @apply mt-8 mb-4 sm:text-3xl text-2xl;
+}
+
+.about h3 {
+  @apply mt-7 mb-3;
+}
+
+.about h2 a {
+  @apply sm:font-semibold;
+}
+
+.about p {
+  @apply mt-3 mb-4;
+}
+
 @tailwind components;
 @tailwind utilities;
