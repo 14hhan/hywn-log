@@ -2,7 +2,7 @@
   import { page } from '$app/stores'
   import { onMount } from 'svelte'
 
-  export const allowedHeadings = ['h2']
+  export const allowedHeadings = ['h2', 'h3']
   export let activeHeading = null
 
   let scrollY
