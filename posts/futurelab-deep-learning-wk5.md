@@ -6,66 +6,88 @@ preview: "WK5: Underfitting vs Overfitting and Holdhout Validation"
 
 **미래연구소: https://futurelab.creatorlink.net/**
 
-## Neural Net Learning
-- Neural Net Learning → Data에 대응되는 `f`를 찾는 과정
-- NN에서 hidden layer 1개: 연속 함수 구현 가능
-- NN에서 hidden layer 2개 이상: 불연속 함수 구현 가능
-- XOR → linear classification 불가
-  - ![XOR_graph](https://user-images.githubusercontent.com/53527600/153695862-b7c77f07-f6c2-41e9-be76-9cd292a66ce3.png)
-  - 하지만 hidden layer 1개만 있어도 표현할 수는 있음
-- ![진행_과정](https://user-images.githubusercontent.com/53527600/153695890-6adfac84-eb3c-4d28-8b05-18043eef89c2.png)
-### Shapes
-- `W` shape: (진행 방향 layer의 node의 개수, input_dim(= feature의 dim))
-- `X` shape: (input_dim, vectorize 시킨 data의 개수)
-- `b` shape: (진행 방향 layer의 node의 개수, 1)
-- `WX` shape: (진행 방향 layer의 node의 개수, vectorize 시킨 data의 개수)
-- `WX + b` shape: (진행 방향 layer의 node의 개수, vectorize 시킨 data의 개수) + (진행 방향 layer의 node의 개수, 1) → shape이 맞지 않을 경우 broadcasting으로 해결
+## Hyper Parameter and Parameter
+### Hyper Parameter
+- 최적의 hyper parameter를 찾는 과정: tune → 사람이 직접 최적의 hyper parameter를 찾아야 함(수동적)
+- e.g. learning rate, number of iteration(= epoch), number of hidden layer, number of node of each layers, activation functions of each layers
+### Parameter
+- 최적의 parameter를 찾는 과정: update → gradient descent를 통해 자동으로 최적의 값을 찾음(자동적)
+- e.g. weight, bias
 
-## Activation
-### Non-linear Activation
-- `sigmoid`가 아닌 다른 함수로도 activate가 가능
-- Why non-linear activation?
-  - linear regression의 한계: 직선(→ plane, hyper plane)으로만 fitting 가능
-  - 그러나 logistic regression에서는 sigmoid를 이용함으로 강직성을 완화함
-  - 예시: y = sin(x)를 linear regression으로 표현하면 처음에는 직선의 그래프만 그려지지만 여러 층의 activation을 통하면 `sin(x)` 그래프와 비슷한 form을 기대할 수 있음
-  - 가장 중요한 이유는 **linear activation을 여러번 해 봤자 linear activation을 1번만 한 결과물과 같기 떄문**에 hidden layer를 깊게 쌓을 필요가 없어지기 때문
-    - ![증명_과정](https://user-images.githubusercontent.com/53527600/153695918-f5f1c860-bc97-43e2-80f6-5ada61795ccd.png)
-### Vanishing Gradient
-- sigmoid 특징: 결과값이 0보다 크고 1보다 작음
-- 따라서 backpropagation 시 chain rule에 의해 다양한 값들이 곱해지면 0과 1사이의 값이 계속 곱해지는 것이므로 결국 gradient가 상당히 작은 값이 되어버림
-- Vanishing Gradient: 많은 hidden layer를 쌓음 → non-linear activation이 많아짐 → sigmoid를 많이 하게 됨 → gradient가 상당히 작은 값이 되어버리는 현상
+## Overfitting vs Underfitting
+- fit: train과 동의어로 사용됨 → data를 학습하는 과정
+  - 더 나아가서는 train set 뿐만 아니라 test set까지도 잘 예측하는 것
+- Underfitting: model이 train data조차도 잘 맞추지 못하는 것
+- Overfitting: model이 train data를 외워 버린 것
+- underfitting과 overfitting은 직관적으로는 학습 정도를 조절해서 해결할 수 있으나, 이외에 다른 요인도 작용함(hiddne layer의 개수 등)
+- Epoch: model에게 dataset을 보여준 횟수(= number of iteration)
 
-## Activation Function
-### sigmoid
-- ![sigmoid_graph](https://user-images.githubusercontent.com/53527600/153695974-baf0378d-04f7-4c1d-882d-63605c8c2bf7.png)
-- ![sigmoid_function](https://user-images.githubusercontent.com/53527600/153695973-7a3b47a5-dc8d-4948-b9ea-4590b0cf71be.png)
-- 장점: binary classification의 output layer라는 특수한 상황에 적합
-- 단점: gradient descent 속도 저하
-### tanh
-- ![tanh_graph](https://user-images.githubusercontent.com/53527600/153695995-5838b8c7-1fe2-4906-947c-27d2e57b5eef.png)
-- ![tanh_function](https://user-images.githubusercontent.com/53527600/153695994-5f6abe17-8b7b-4a08-b511-375b438353e4.png)
-- 장점: sigmoid보다는 vanishing gradient가 덜함
-- 단점: gradient descent 속도 저하
-### ReLU
-- ![ReLU_graph](https://user-images.githubusercontent.com/53527600/153696029-030fb868-ad1b-410e-b126-18532bebbcc1.png)
-- ![ReLU_function](https://user-images.githubusercontent.com/53527600/153696027-7ec63e98-c48c-438b-b40d-4ee3c59c81d6.png)
-- 장점: sigmoid, tanh의 vanishing gradient 문제 해결
-- 단점: 절반의 gradient가 0(= dying ReLU 현상)
-### Leaky ReLU
-- ![Leaky_ReLU_graph](https://user-images.githubusercontent.com/53527600/153696062-44ba60fa-70d1-49c7-86a1-19341df51004.png)
-- ![Leaky_ReLU_function](https://user-images.githubusercontent.com/53527600/153696061-120dfffd-cb05-4efc-962d-29714b598d58.png)
-- 장점: dying ReLU 현상을 해결(→ GAN과 같이 train이 어려운 경우에 사용)
-### Output Layer의 Activation Function
-- 어떤 activation function이 다른 activation보다 무조건 더 좋은 것은 아님 → model에 따라 더 뛰어난 activation function이 있음
-- 층 별로 다른 activation function 사용 가능 → output layer에서는 맞는 activation function 사용
-- ![activation_functions](https://user-images.githubusercontent.com/53527600/153696094-b6419dc8-2ac1-4191-abd1-d78208caaf4c.png)
+![underfit_fit_overfit](https://user-images.githubusercontent.com/53527600/154790242-5b9c1af5-22bd-492d-ac5c-a20f535e1c78.png)
 
-## Random Initialization
-- zero initialization의 문제점
-  - row symmetric: parameter update 해도 row가 계속 같은 현상
-  - vanishing gradient
-- 대책
-  1. `np.random.randn(shape)`
-  2. 0보다 큰 적절한 상수를 곱함 (단, 너무 크면 saturation(= weight의 update가 잘 일어나지 않는 현상)이 일어날 수 있음)
-### Xavier / He Initialization
-![Xavier_He_Initialization](https://user-images.githubusercontent.com/53527600/153696122-30d22694-90a1-4d12-90a1-89dc53a554c6.png)
+### Epoch 관점
+1. underfit: 학습 초반 → 최적의 parameter가 아니므로 예측을 잘 하지 못함
+2. fit: train 할 수록 주어진 train data를 잘 맞추게 됨 → 그러나 unseen data까지 잘 맞출 지는 알 수 없음
+3. overfit: 때문에 과도하게 학습하다 보니 unseen data는 잘 맞추지 못하고 train data는 잘 맞춤
+⇒ 따라서 train에 쓰이지 않은 데이터로 중간중간 overfit을 확인해야 함 → validation set 설정
+
+### Model의 크기(layer, unit) 관점
+1. underfit: 가벼운 model은 선형에 가까움 → 예측을 잘 하지 못함
+2. fit: model이 복잡해 질 수록 주어진 train data를 잘 맞추게 됨 → 그러나 unseen data까지 잘 맞출 지는 알 수 없음
+3. overfit: 때문에 model이 너무 거대해 지면 unseen data는 잘 맞추지 못하고 train data는 잘 맞춤
+⇒ 따라서 train에 쓰이지 않은 데이터로 중간중간 overfit을 확인해야 함 → validation set 설정
+
+### 해결책
+- underfit: model의 표현력을 키움 → node, layer, activation function 조정
+- overfit: number of iteration, node, layer의 깊이 등을 줄임
+
+![fitting_graph](https://user-images.githubusercontent.com/53527600/154790241-a6f115e7-bd2d-4796-b94b-8221d7e9cace.png)
+
+### Validation Set, Bias and Variance
+- train set이 문제집이라고 비유하면 test set은 수능, validation set(= dev set)은 모의고사라고 비유 가능
+- Bias: 참 값과 추정 값의 차이 → loss
+- Variance: 추정 값들의 흩어진 정도(= 정답을 외워버린 정도) → model complexity
+- bias가 높아지만 variance가 낮아지고 variance가 높아지면 bias가 낮아지므로 적절히 trade off 해야 함
+![bias_and_variance](https://user-images.githubusercontent.com/53527600/154790372-6be8b9ad-7924-46d2-b9ca-daf9af9836f2.png)
+
+## Holdout Validation
+- No Free Lunch Theorem: dataset마다 최적의 hyper parameter가 다름 → 어떠한 model에 대해 적절한 크기나 구조를 결정하는 마법같은 공식은 없음
+- No Free Lunch 해결책: holdout validation
+- Holdout Validation: data를 split 하여 train data, validation data 구성
+  - train data로 검증하는 것은 unseen data에 대한 일반성을 확보하지 못하기 때문
+- validation set을 이용한 결과에 따라 최적의 hyper parameter를 찾아감 
+  - 하지만 validation data로 gradient descent는 하지 않음
+- validation과 test data가 unseen임은 성립해야함
+- validation set vs test set
+  - validation set은 training에 관여(→ hyper parameter tuning) 하지만 직접적인 관여는 아님(= unseen data)
+  - test set은 training에 어떠한 관여도 하지 않음
+- Holdout 방식
+  - 2-way holdout = (training + test)
+  - 3-way holdout = (training + test + validation)
+- holdout은 slicing을 사용하거나 scikit-learn의 `train_test_split()` 이용
+
+## Build a model by sequential
+- 이때까지 배웠던 layer → dense layer(= fully connected layer): weight matrix의 shape가 `(이전 layer의 node 개수, 다음 layer의 node 개수)`
+```python
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+# 기본 1
+dense1 = Dense(units = 32, activation='relu', input_shape=(784,))
+dense2 = Dense(72, activation = 'tanh')
+dense3 = Dense(1, activation = 'sigmoid')
+layers = [dense1, dense2, dense3]
+model1 = Sequential(layers)
+
+# 기본 2
+model2 = Sequential([Dense(units = 32, activation='relu', input_shape=(784,)),
+                      Dense(72, activation = 'tanh'),
+                      Dense(1, activation = 'sigmoid')])
+
+# add method 이용
+model2 = Sequential()
+model2.add(Dense(64, activation='relu', input_dim = 784))
+model2.add(Dense(100, activation = 'relu'))
+model2.add(Dense(128, activation = 'relu'))
+model2.add(Dense(32, activation = 'relu'))
+model2.add(Dense(10, activation = 'softmax'))
+```
