@@ -107,8 +107,8 @@ preview: "WK9: Metrics, Pandas and RNN"
 - `h_t = tanh(W_hh * h_(t-1) + W_xh * x_t)`
 - `y_t = W_h * h_t`
 - return_sequences = False
-  ![output_연산_1](https://user-images.githubusercontent.com/53527600/159104942-3b8a2d64-f163-44d5-ac43-aed0dfd00870.png)
+  - ![output_연산_1](https://user-images.githubusercontent.com/53527600/159104942-3b8a2d64-f163-44d5-ac43-aed0dfd00870.png)
 - return_sequences = True
-  ![output_연산_2](https://user-images.githubusercontent.com/53527600/159104954-ef334a79-f70f-4c84-9b1b-ccd0bb2ae019.png)
+  - ![output_연산_2](https://user-images.githubusercontent.com/53527600/159104954-ef334a79-f70f-4c84-9b1b-ccd0bb2ae019.png)
 - w_xh, w_hh, w_hy 전부 동일 layer에서는 그 값이 동일
 - return_sequence를 true로 설정함을 통해 output의 dimension을 input과 같게할 수 있고 이를 통해 recurrent layer를 더 붙일 수 있음
